@@ -27,26 +27,15 @@ app.listen(PORT, (err) => {
   else console.log(`Server Running at http://localhost:${PORT}/`);
 });
 
+// database connection
+import db from "./models/index.mjs"
+db.connectDB();
 
+// blockchain connection
+import { dummy } from "./blockchain/blockchain.conn.mjs"
+const blockchain_conn = await dummy.get();
+console.log(blockchain_conn);
 
-import Web3 from "web3";
-import contract from "@truffle/contract";
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const artifacts = require("./blockchain/build/contracts/test.json");
-
-// ganache address
-if (typeof web3 !== 'undefined') {
-  var web3 = new Web3(web3.currentProvider)
-} else {
-  var web3 = new Web3(new Web3.providers.HttpProvider('HTTP://127.0.0.1:7545'))
-}
-// console.log(web3)
-
-const Test = contract(artifacts)
-Test.setProvider(web3.currentProvider)
-const accounts = await web3.eth.getAccounts();
-const dummy = await Test.deployed();
-
-const a = await dummy.get();
-console.log(a)
+// Routes
+import solid from "./routes/test.solidity.mjs"
+app.use('/test-solidity', solid);

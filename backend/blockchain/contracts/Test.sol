@@ -2,8 +2,11 @@
 pragma solidity 0.5.0;
 
 contract test{
-    uint public a = 10;
-    function get() public view returns(uint ){
-        return a;
+    uint public a = 0;
+    function get() public pure returns(string memory ){
+        return "Blockchain Connection succesful";
+    }
+    function set() public{
+        a++;
     }
 }
