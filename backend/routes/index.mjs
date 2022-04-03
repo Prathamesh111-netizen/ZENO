@@ -1,5 +1,9 @@
-import userRoutes from "./user.actions.js";
+import solidity_testing from "./test.solidity.mjs";
+import userRoutes from "./user.actions.routes.mjs";
+import eth_manufacturer from "./manufacturer.routes.mjs";
 
 export {
-    userRoutes
+    solidity_testing,
+    userRoutes,
+    eth_manufacturer
 };

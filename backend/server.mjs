@@ -37,5 +37,9 @@ const blockchain_conn = await dummy.get();
 console.log(blockchain_conn);
 
 // Routes
-import solid from "./routes/test.solidity.mjs"
-app.use('/test-solidity', solid);
+// import { eth_manufacturer } from "./routes/index.mjs"
+// app.use('/eth-blockchain',  eth_manufacturer);
+
+import { solidity_testing } from "./routes/index.mjs"
+app.use('/test', solidity_testing);
+

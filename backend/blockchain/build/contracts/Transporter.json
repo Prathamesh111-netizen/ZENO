@@ -1,0 +1,108 @@
+{
+  "contractName": "Transporter",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820a2a2565b36d74e5f092ad496193182cb33ce154d5c134a5b47b74c2d925f63d90029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820a2a2565b36d74e5f092ad496193182cb33ce154d5c134a5b47b74c2d925f63d90029",
+  "sourceMap": "59:30:5:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;59:30:5;;;;;;;",
+  "deployedSourceMap": "59:30:5:-;;;;;",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity 0.5.0;\r\n\r\ncontract Transporter{\r\n    \r\n}",
+  "sourcePath": "D:/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Transporter.sol",
+  "ast": {
+    "absolutePath": "/D/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Transporter.sol",
+    "exportedSymbols": {
+      "Transporter": [
+        232
+      ]
+    },
+    "id": 233,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 231,
+        "literals": [
+          "solidity",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:22:5"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 232,
+        "linearizedBaseContracts": [
+          232
+        ],
+        "name": "Transporter",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 233,
+        "src": "59:30:5"
+      }
+    ],
+    "src": "33:56:5"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Transporter.sol",
+    "exportedSymbols": {
+      "Transporter": [
+        232
+      ]
+    },
+    "id": 233,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 231,
+        "literals": [
+          "solidity",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:22:5"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 232,
+        "linearizedBaseContracts": [
+          232
+        ],
+        "name": "Transporter",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 233,
+        "src": "59:30:5"
+      }
+    ],
+    "src": "33:56:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xa7AA5905BCDB16ab37ebb184eD9E0D5914E9Bdc0",
+      "transactionHash": "0xf75f4ef514dcf2fa1330ae4e98d6e28e55c17721f161c25f8580b95252299fce"
+    }
+  },
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2022-04-03T14:59:14.515Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

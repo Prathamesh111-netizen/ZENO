@@ -1,0 +1,108 @@
+{
+  "contractName": "Customer",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820fef08f9de7f7592f4f19a78a3e6171a28697219ccf4f938b00741958f11f494f0029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820fef08f9de7f7592f4f19a78a3e6171a28697219ccf4f938b00741958f11f494f0029",
+  "sourceMap": "59:33:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;59:33:0;;;;;;;",
+  "deployedSourceMap": "59:33:0:-;;;;;",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity 0.5.0;\r\n\r\ncontract Customer{\r\n    \r\n    \r\n}",
+  "sourcePath": "D:/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Customer.sol",
+  "ast": {
+    "absolutePath": "/D/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Customer.sol",
+    "exportedSymbols": {
+      "Customer": [
+        2
+      ]
+    },
+    "id": 3,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:22:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2,
+        "linearizedBaseContracts": [
+          2
+        ],
+        "name": "Customer",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 3,
+        "src": "59:33:0"
+      }
+    ],
+    "src": "33:59:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Customer.sol",
+    "exportedSymbols": {
+      "Customer": [
+        2
+      ]
+    },
+    "id": 3,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:22:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 2,
+        "linearizedBaseContracts": [
+          2
+        ],
+        "name": "Customer",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 3,
+        "src": "59:33:0"
+      }
+    ],
+    "src": "33:59:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xE4362330e2D59f2A62F209A9734D5443CE69EBc9",
+      "transactionHash": "0x46fbe42155a5d9dacd74f78f526872a4faab45b3fa23b7c57c3e52ba25e6c5ca"
+    }
+  },
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2022-04-03T14:59:16.620Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
