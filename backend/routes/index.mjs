@@ -1,9 +1,13 @@
-import solidity_testing from "./test.solidity.mjs";
-import userRoutes from "./user.actions.routes.mjs";
+import solidity_testing from "./test.solidity.routes.mjs";
+import authentication from "./authentication.routes.mjs";
+import RegisterRouter from "./user.register.routes.mjs";
 import eth_manufacturer from "./manufacturer.routes.mjs";
+import eth_retailer from "./retailer.routes.mjs";
 
 export {
+    authentication,
+    RegisterRouter,
     solidity_testing,
-    userRoutes,
-    eth_manufacturer
+    eth_manufacturer,
+    eth_retailer
 };

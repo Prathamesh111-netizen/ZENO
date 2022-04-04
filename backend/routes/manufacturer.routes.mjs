@@ -1,33 +1,54 @@
 import express from "express";
-import { web3, manufacturer } from "../blockchain/blockchain.conn.mjs";
+import {
+    web3,
+    manufacturer_ABI
+} from "../blockchain/blockchain.conn.mjs";
+
+import db from "../models/index.mjs";
+
 const router = express.Router();
 
+router.post('/produce-material', async (req, res) => {
 
-router.get('/available-material', async (req, res)=>{
-    
-   
-    const available_material = await manufacturer.available();
-    res.send({available_material : parseInt(available_material, 16)});
+    const user = req.cookies.accessToken;
+    console.log(user)
+    const contractInstance = await new web3.eth.Contract(manufacturer_ABI, user.ContractAddress);
+
+    // const contractAddress;
+    const _material = req.body.Material;
+    const _capacity = req.body.Capacity;
+    const _price = req.body.Price;
+
+
+    // update on blockchain
+    await contractInstance.methods.produce(_material, _capacity).send({ from: process.env.defaultAccount });
+
+    // update on database
+    await db.rawMaterial.findOne({ Manufacturer: user._id, Product: _material }).then(async (result) => {
+       
+        if (result == null) {
+           await db.rawMaterial.create({
+                Manufacturer: user._id,
+                Product: _material,
+                Price: _price,
+                Capacity: parseInt(_capacity)
+            });
+        }
+        else {
+             await db.rawMaterial.updateOne(result, {$set : {
+                 Capacity: parseInt(result.Capacity) + parseInt(_capacity),
+                 Price: parseInt(result.Price) + parseInt(_price)
+            }});
+        }
+    });
+
+    res.send({ Success: true });
+
 });
 
-router.post('/produce-material', async (req, res)=>{
-    
-    let _amount = req.body.Amount;
-    await manufacturer.produce(parseInt(_amount), { from:  web3.eth.defaultAccount});
-    
-    const available_material = await manufacturer.available();
-    res.send(available_material);
-    
-});
+router.get('/sell-material', (req, res)=>{
+    // sell it to retailer
 
-router.get('/sell-material', async (req, res)=>{
-    
-    let _amount = req.body.Amount;
-    await manufacturer.produce(parseInt(_amount), { from:  web3.eth.defaultAccount});
-
-    const available_material = await manufacturer.available();
-    res.send(available_material);
-
-});
+})
 
 export default router;

@@ -40,6 +40,21 @@ console.log(blockchain_conn);
 // import { eth_manufacturer } from "./routes/index.mjs"
 // app.use('/eth-blockchain',  eth_manufacturer);
 
-import { solidity_testing } from "./routes/index.mjs"
-app.use('/test', solidity_testing);
+// import { solidity_testing } from "./routes/index.mjs"
+// app.use('/test', solidity_testing);
+
+// final routes
+import {
+  authentication,
+  RegisterRouter,
+  eth_manufacturer,
+  eth_retailer
+   }
+   from "./routes/index.mjs";
+   
+// separate auth for each category later
+
+app.use('/register', RegisterRouter);
+app.use('/manufacturer', authentication, eth_manufacturer);
+app.use('/retailer', authentication, eth_retailer);
 

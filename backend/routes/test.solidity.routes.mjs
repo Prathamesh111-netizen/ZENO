@@ -6,7 +6,7 @@ import CircularJSON from "circular-json";
 dotenv.config({ silent: process.env.NODE_ENV === 'production' });
 
 import {  web3,
-          manufacturer_artifacts, _manufacturer_artifacts, manufacturer, manufacturer_ABI,
+        manufacturer_ABI,
         factory }
           from "../blockchain/blockchain.conn.mjs";
 const router = express.Router();
