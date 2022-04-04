@@ -6,6 +6,8 @@ import "./Manufacturer.sol";
 import "./Distributor.sol";
 import "./Retailer.sol";
 import "./Customer.sol";
+import "./Product.sol";
+import "./Transport.sol";
 
 contract Contracts_Factory {
 
@@ -108,4 +110,43 @@ contract Contracts_Factory {
     function get_customer_SIZE() public view returns (int256) {
         return _customer_SIZE;
     }
+
+
+    // Product Section
+    int256 _product_SIZE = 0;
+    Product[] _products;
+
+    function createProduct(string memory _owner) public {
+        Product newProduct = new Product(_owner);
+        _products.push(newProduct);
+        _product_SIZE++;
+    }
+
+    function allProducts() public view returns(Product[] memory){
+        return _products;
+    }
+
+    function get_product_SIZE() public view returns (int256){
+        return _product_SIZE;
+    }
+
+    // Transport Section
+    int256 _transport_SIZE = 0;
+    Transport[] _transports;
+
+    function createTransport(string memory _owner) public {
+        Transport newTransport = new Transport(_owner);
+        _transports.push( newTransport);
+        _transport_SIZE++;
+    }
+
+    function allTransports() public view returns(Transport[] memory){
+        return _transports;
+    }
+
+    function get_transport_SIZE() public view returns (int256){
+        return _transport_SIZE;
+    }
+
+
 }

@@ -4,7 +4,9 @@
 import express from "express";
 import db from "../models/index.mjs"
 import { web3,
-        retailer_ABI
+        retailer_ABI,
+        product_ABI,
+        factory
  } from "../blockchain/blockchain.conn.mjs"; 
 
 const router = express.Router();
@@ -39,6 +41,52 @@ router.post('/create-product', async(req, res)=>{
     
 
     res.send({Success : true});
+});
+
+
+
+// Request for Raw Materials
+router.post('/', async (req, res)=>{
+
+    const user = req.cookies.accessToken;
+
+    // created a new contract for product
+    await factory.createProduct({from : process.env.defaultAccount});
+
+    const index = await factory.get_product_SIZE();
+    const allProducts = await factory.allProducts();
+
+    const ContractAddress = allProducts[index - 1];
+
+    const contractInstance = await new web3.eth.Contract(product_ABI, ContractAddress);
+    // var currentStage = await contractInstance.methods.getProductStage().call();
+    // console.log(currentStage)
+    await contractInstance.methods.incrementStage();
+    const currentStage = await contractInstance.methods.getProductStage().call();
+    // console.log(currentStage);
+
+
+    await db.productTransaction.create({
+        Product: req.body.Product,
+        Stage : currentStage,
+        From : user.ContractAddress,
+        to : ContractAddress,
+    });
+
+    await db.product.findOne({Product : req.body.Product}).then(result=>{
+        console.log(result)
+        // await db.activeRequest.create({
+        //     Retailer : String,
+        //     Product: String,
+        //     Material : String,
+        //     Capacity : Number,
+        //     IsActive : Boolean,
+        // })
+    })
+
+    res.send({Success : true})
+
+
 });
 
 export default router;

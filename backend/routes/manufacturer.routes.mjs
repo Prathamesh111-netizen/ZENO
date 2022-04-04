@@ -24,23 +24,23 @@ router.post('/produce-material', async (req, res) => {
     await contractInstance.methods.produce(_material, _capacity).send({ from: process.env.defaultAccount });
 
     // update on database
-    await db.rawMaterial.findOne({ Manufacturer: user._id, Product: _material }).then(async (result) => {
+    // await db.rawMaterial.findOne({ Manufacturer: user._id, Product: _material }).then(async (result) => {
        
-        if (result == null) {
+        // if (result == null) {
            await db.rawMaterial.create({
                 Manufacturer: user._id,
                 Product: _material,
                 Price: _price,
                 Capacity: parseInt(_capacity)
             });
-        }
-        else {
-             await db.rawMaterial.updateOne(result, {$set : {
-                 Capacity: parseInt(result.Capacity) + parseInt(_capacity),
-                 Price: parseInt(result.Price) + parseInt(_price)
-            }});
-        }
-    });
+        // }
+    //     else {
+    //          await db.rawMaterial.updateOne(result, {$set : {
+    //              Capacity: parseInt(result.Capacity) + parseInt(_capacity),
+    //              Price: parseInt(result.Price) + parseInt(_price)
+    //         }});
+    //     }
+    // });
 
     res.send({ Success: true });
 

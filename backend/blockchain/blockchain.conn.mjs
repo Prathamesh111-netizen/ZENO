@@ -25,6 +25,7 @@ const manufacturer_artifacts = require("./build/contracts/Manufacturer.json");
 const distributor_artifacts = require("./build/contracts/Distributor.json");
 const retailer_artifacts = require("./build/contracts/Retailer.json");
 const customer_artifacts = require("./build/contracts/Customer.json");
+const product_artifacts = require("./build/contracts/Product.json");
 const contracts_factory_artifacts = require("./build/contracts/Contracts_Factory.json");
 
 
@@ -52,6 +53,9 @@ const retailer_ABI = retailer_artifacts.abi;
 // Customer Contract 
 const customer_ABI = customer_artifacts.abi;
 
+// Product Contract
+const product_ABI = product_artifacts.abi;
+
 // Contracts_Factory Contract
 const _factory_artifacts = contract(contracts_factory_artifacts);
 _factory_artifacts.setProvider(web3.currentProvider)
@@ -65,6 +69,7 @@ export {
     distributor_ABI,
     retailer_ABI,
     customer_ABI,
+    product_ABI,
     factory
 };
 
