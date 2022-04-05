@@ -12,6 +12,8 @@ const router = express.Router();
 
 // Creating a new Manfacturer
 router.post('/create-manufacturer', async (req, res)=>{
+    console.log(req.body)
+
     const user = {};
     user.Email = req.body.Email;
     user.Password = req.body.Password;
@@ -33,7 +35,11 @@ router.post('/create-manufacturer', async (req, res)=>{
 
     // final operation
     db.user.create(user);
-    res.send(user);
+
+    // res.send(user); api result
+
+    
+      res.redirect("/login-page");
 
 })
 
@@ -115,9 +121,10 @@ router.post('/create-customer', async (req, res)=>{
 
 router.get('/login', async (req, res)=>{
     const User = {};
-    User.Email = req.body.Email;
-    User.Password = req.body.Password;
+    User.Email = req.query.Email;
+    User.Password = req.query.Password;
     User.IsActive = true;
+    // console.log(req.query)
 
     db.user.findOne(User).then(result=>{
 
@@ -127,10 +134,31 @@ router.get('/login', async (req, res)=>{
             return res.send({Success : false});
         else{
             res.cookie('accessToken', result);
-            return res.send({Success : true})
+            // return res.send({Success : req.cookies.accessToken});
+            // res.redirect('/register/test-cookies')
+
+            // redirect to the respective page according to the role
+            if (result.Role == "Manufacturer"){
+                
+            }
+            else if (result.Role == "Distributor"){
+
+            }
+            else if (result.Role == "Retailer"){
+
+            }
+            else if (result.Role == "Customer"){
+
+            }
         }
     });
 })
 
+// router.get('/test-cookies', (req, res)=>{
+//     console.log("Here")
+//     const user = req.cookies.accessToken;
+//     // console.log(user)
+//     res.send(user);
+// })
 
 export default router;

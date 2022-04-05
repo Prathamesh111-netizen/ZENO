@@ -9,6 +9,7 @@ const schema = new mongoose.Schema({
      currentOwner : String,
      Status : String, // setup request // accepted request by manufacturer // raw material with distributor // raw material received
      IsActive : { type : Boolean, default : true},
+     IsAccepted : { type : Boolean, default : false},
      Isfulfilled : { type : Boolean, default : false},
      timestamp: { type: Date, default: Date.now}
 });
