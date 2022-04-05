@@ -1,7 +1,11 @@
 import express from "express";
 import {
     web3,
-    manufacturer_ABI
+    factory,
+    manufacturer_ABI,
+    distributor_ABI,
+    transport_ABI,
+    product_ABI
 } from "../blockchain/blockchain.conn.mjs";
 
 import db from "../models/index.mjs";
@@ -24,30 +28,109 @@ router.post('/produce-material', async (req, res) => {
     await contractInstance.methods.produce(_material, _capacity).send({ from: process.env.defaultAccount });
 
     // update on database
-    // await db.rawMaterial.findOne({ Manufacturer: user._id, Product: _material }).then(async (result) => {
-       
-        // if (result == null) {
-           await db.rawMaterial.create({
-                Manufacturer: user._id,
-                Product: _material,
+    await db.rawMaterial.findOne({ _id : user._id}).then(async (result) => {
+
+        if (result == null) {
+            await db.rawMaterial.create({
+                Owner : user.ContractAddress,
+                Material : _material,
                 Price: _price,
                 Capacity: parseInt(_capacity)
             });
-        // }
-    //     else {
-    //          await db.rawMaterial.updateOne(result, {$set : {
-    //              Capacity: parseInt(result.Capacity) + parseInt(_capacity),
-    //              Price: parseInt(result.Price) + parseInt(_price)
-    //         }});
-    //     }
-    // });
+        }
+        else {
+            await db.rawMaterial.updateOne(result, {
+                $set: {
+                    Capacity: parseInt(result.Capacity) + parseInt(_capacity),
+                    Price: parseInt(result.Price) + parseInt(_price)
+                }
+            });
+        }
+    });
 
     res.send({ Success: true });
 
 });
 
-router.get('/sell-material', (req, res)=>{
-    // sell it to retailer
+// accept the request for raw material, and create the request for transport
+// receive the payment for raw mateial, and pay for transport
+
+router.post('/accept-request', async (req, res) => {
+
+    // html form only contains Request id
+
+    const user = req.cookies.accessToken; // accessing cookie
+    
+    await db.productRequest.findOne({ _id: req.body.RequestID }).then(async (result) => {
+        console.log(result);
+        if (result == null)
+            return res.send({Success : false});
+
+        // const _capacity = await contractInstance.methods.available(result.Material).call();
+        const productContract = await new web3.eth.Contract(product_ABI, result.Product);
+
+        await db.rawMaterial.findOne({
+            Owner : user.ContractAddress,
+            Material : result.Material,
+            IsActive : true
+        }).then(async (docs) => {
+            // console.log(docs)
+            if (parseInt(docs.Capacity) >= parseInt(result.Capacity)) {
+                
+                // accept the request here : make transaction log on blockchain 
+                // Update the Product Contract details
+                await productContract.methods.acceptRequest(result.Material).send({ from: process.env.defaultAccount });
+
+                // Update the productrequests collection
+                await db.productRequest.updateOne(result, {$set : {Status : "Raw Material is with distributor"}});
+
+                // Update the database entry for Request
+                if (parseInt(docs.Capacity) == parseInt(result.Capacity))
+                    await db.rawMaterial.updateOne(docs, { $set: {IsActive : false, Capacity: 0 }});
+                else
+                    await db.rawMaterial.updateOne(docs, { $set: { Capacity: parseInt(docs.Capacity) - parseInt(result.Capacity)}});
+
+                
+                // Request for Transport  : make transport contract instance, send money, make db entry
+                await factory.createTransport(user.ContractAddress, {from : process.env.defaultAccount});
+                const alltransport = await factory.allTransports();
+                const index = await factory.get_transport_SIZE();
+
+                const TransportAddress = alltransport[index - 1];
+
+                const Transport = await new web3.eth.Contract(transport_ABI, TransportAddress);
+
+                // set-requests on blockchain & database
+                await Transport.methods.setRequests(result.Material).send({ from: process.env.defaultAccount }); // blockchain
+                
+                await db.transportRequest.create({
+                    Transport : TransportAddress,
+                    Product : result.Product,
+                    Material : result.Material,
+                    Capacity : result.Capacity,
+                    Manufacturer : user.ContractAddress,
+                    currentOwner : user.ContractAddress,
+                    Status : "Setup request"
+                });
+
+                //send money/ethers to the transport contract
+                await web3.eth.sendTransaction({from : user.eth_Account, to : TransportAddress, value : process.env.transportCost});
+
+                // receive money from product contract for respective raw material
+               console.log(result.Price) 
+               console.log(result.Product) 
+               console.log(user.eth_Account) 
+            //    await web3.eth.sendTransaction({from : result.Product, to : user.eth_Account,  value :result.Price});
+
+                res.send({Success : true})
+            }
+            else {
+                res.send({ Success: false, Status: "Cannot fulfill the request" })
+            }
+        })
+
+    })
+
 
 })
 

@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
-     Manufacturer : String,
-     Product: String,
+     Owner : String,
+     Material: String,
      Price : Number,
      Capacity : Number,
+     IsActive : {type : Boolean, default : true},
      timestamp: { type: Date, default: Date.now}
 });
 

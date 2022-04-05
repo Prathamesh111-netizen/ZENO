@@ -117,6 +117,7 @@ router.get('/login', async (req, res)=>{
     const User = {};
     User.Email = req.body.Email;
     User.Password = req.body.Password;
+    User.IsActive = true;
 
     db.user.findOne(User).then(result=>{
 

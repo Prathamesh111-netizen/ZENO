@@ -18,13 +18,15 @@ contract Retailer{
     struct Material{
         string material;
         int capacity;
+        int price;
     }
     mapping(string => Material[]) product;
 
-    function createProduct(string memory _product, string memory _material, int _capacity) public{
+    function createProduct(string memory _product, string memory _material, int _capacity, int _price) public{
         Material memory m;
         m.material = _material;
         m.capacity = _capacity;
+        m.price = _price;
         product[_product].push(m);
     }
 

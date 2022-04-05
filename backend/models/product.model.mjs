@@ -4,7 +4,7 @@ const schema = new mongoose.Schema({
      Retailer : String,
      Product: String,
      Price : Number,
-     Requirement : [{_material : String, _capacity : Number }],
+     Requirement : [{_material : String, _capacity : Number, _price : Number }],
      timestamp: { type: Date, default: Date.now}
 });
 

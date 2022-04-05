@@ -215,7 +215,7 @@
                         "name": "this",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 946,
+                        "referencedDeclaration": 854,
                         "src": "314:4:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_Manufacturer_$425",
@@ -1019,7 +1019,7 @@
                         "name": "this",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 946,
+                        "referencedDeclaration": 854,
                         "src": "314:4:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_Manufacturer_$425",
@@ -1709,12 +1709,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x34Bb4975F081907549FcAea7F9FB97AbF0D73cEC",
-      "transactionHash": "0xad77bb6f2e3ed3f1a9238ba84be54cd4753ac22fd76971d83211e92bd84263a4"
+      "address": "0xE6500e5ad1716B8d48641878a7e562b8833ac789",
+      "transactionHash": "0x02ed535d199b42f31315a1cad539f89e256fa90bbf59c906decbfbd729a57c95"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2022-04-04T18:54:13.338Z",
+  "updatedAt": "2022-04-05T07:04:55.001Z",
   "devdoc": {
     "methods": {}
   },

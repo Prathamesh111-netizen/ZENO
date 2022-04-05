@@ -48,27 +48,17 @@ contract Product{
     string[] Materials;
     uint material_SIZE = 0;
 
-    struct Request{
-        string currentOwner;
-        uint Capacity;
-        uint Price;
-    }
+    mapping(string => bool) requestStatus; // is it with retailer or not?
+    mapping(string => bool) transportStatus; // is it with distributor or not
 
-    mapping(string => Request) requests;
-    mapping(string => bool) requestStatus;
-
-    function setRequests(string memory _material,  uint _capacity, uint _price) public {
+    function setRequests(string memory _material) public {
         requestStatus[_material] = false;
-        
-        Request memory temp;
-        temp.Capacity = _capacity;
-        temp.currentOwner = Retailer;
-        temp.Price = _price;
-        requests[_material] = temp;
+        transportStatus[_material] = false;
+        material_SIZE++;
     }
 
-    function acceptRequest(string memory _material, string memory _manufacturer) public{
-        requests[_material].currentOwner = _manufacturer;
+    function acceptRequest(string memory _material) public {
+        transportStatus[_material] = true;
     }
 
     function fulfillRequest(string memory _material) public {

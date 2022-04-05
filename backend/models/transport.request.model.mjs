@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
+     Transport : String,
      Product : String,
+     Material : String,
+     Capacity : Number,
      Manufacturer : String,
      currentOwner : String,
      Status : String, // setup request // accepted request by distributor //  raw material received by retailer
