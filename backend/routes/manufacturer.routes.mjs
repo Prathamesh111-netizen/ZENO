@@ -1,33 +1,137 @@
 import express from "express";
-import { web3, manufacturer } from "../blockchain/blockchain.conn.mjs";
+import {
+    web3,
+    factory,
+    manufacturer_ABI,
+    distributor_ABI,
+    transport_ABI,
+    product_ABI
+} from "../blockchain/blockchain.conn.mjs";
+
+import db from "../models/index.mjs";
+
 const router = express.Router();
 
+router.post('/produce-material', async (req, res) => {
 
-router.get('/available-material', async (req, res)=>{
-    
-   
-    const available_material = await manufacturer.available();
-    res.send({available_material : parseInt(available_material, 16)});
+    const user = req.cookies.accessToken;
+    console.log(user)
+    const contractInstance = await new web3.eth.Contract(manufacturer_ABI, user.ContractAddress);
+
+    // const contractAddress;
+    const _material = req.body.Material;
+    const _capacity = req.body.Capacity;
+    const _price = req.body.Price;
+
+
+    // update on blockchain
+    await contractInstance.methods.produce(_material, _capacity).send({ from: process.env.defaultAccount });
+
+    // update on database
+    await db.rawMaterial.findOne({ _id : user._id}).then(async (result) => {
+
+        if (result == null) {
+            await db.rawMaterial.create({
+                Owner : user.ContractAddress,
+                Material : _material,
+                Price: _price,
+                Capacity: parseInt(_capacity)
+            });
+        }
+        else {
+            await db.rawMaterial.updateOne(result, {
+                $set: {
+                    Capacity: parseInt(result.Capacity) + parseInt(_capacity),
+                    Price: parseInt(result.Price) + parseInt(_price)
+                }
+            });
+        }
+    });
+
+    res.send({ Success: true });
+
 });
 
-router.post('/produce-material', async (req, res)=>{
-    
-    let _amount = req.body.Amount;
-    await manufacturer.produce(parseInt(_amount), { from:  web3.eth.defaultAccount});
-    
-    const available_material = await manufacturer.available();
-    res.send(available_material);
-    
-});
+// accept the request for raw material, and create the request for transport
+// receive the payment for raw mateial, and pay for transport
 
-router.get('/sell-material', async (req, res)=>{
+router.post('/accept-request', async (req, res) => {
+
+    // html form only contains Request id
+
+    const user = req.cookies.accessToken; // accessing cookie
     
-    let _amount = req.body.Amount;
-    await manufacturer.produce(parseInt(_amount), { from:  web3.eth.defaultAccount});
+    await db.productRequest.findOne({ _id: req.body.RequestID }).then(async (result) => {
+        console.log(result);
+        if (result == null)
+            return res.send({Success : false});
 
-    const available_material = await manufacturer.available();
-    res.send(available_material);
+        // const _capacity = await contractInstance.methods.available(result.Material).call();
+        const productContract = await new web3.eth.Contract(product_ABI, result.Product);
 
-});
+        await db.rawMaterial.findOne({
+            Owner : user.ContractAddress,
+            Material : result.Material,
+            IsActive : true
+        }).then(async (docs) => {
+            // console.log(docs)
+            if (parseInt(docs.Capacity) >= parseInt(result.Capacity)) {
+                
+                // accept the request here : make transaction log on blockchain 
+                // Update the Product Contract details
+                await productContract.methods.acceptRequest(result.Material).send({ from: process.env.defaultAccount });
+
+                // Update the productrequests collection
+                await db.productRequest.updateOne(result, {$set : {Status : "Raw Material is with distributor"}});
+
+                // Update the database entry for Request
+                if (parseInt(docs.Capacity) == parseInt(result.Capacity))
+                    await db.rawMaterial.updateOne(docs, { $set: {IsActive : false, Capacity: 0 }});
+                else
+                    await db.rawMaterial.updateOne(docs, { $set: { Capacity: parseInt(docs.Capacity) - parseInt(result.Capacity)}});
+
+                
+                // Request for Transport  : make transport contract instance, send money, make db entry
+                await factory.createTransport(user.ContractAddress, {from : process.env.defaultAccount});
+                const alltransport = await factory.allTransports();
+                const index = await factory.get_transport_SIZE();
+
+                const TransportAddress = alltransport[index - 1];
+
+                const Transport = await new web3.eth.Contract(transport_ABI, TransportAddress);
+
+                // set-requests on blockchain & database
+                await Transport.methods.setRequests(result.Material).send({ from: process.env.defaultAccount }); // blockchain
+                
+                await db.transportRequest.create({
+                    Transport : TransportAddress,
+                    Product : result.Product,
+                    Material : result.Material,
+                    Capacity : result.Capacity,
+                    Manufacturer : user.ContractAddress,
+                    currentOwner : user.ContractAddress,
+                    Status : "Setup request"
+                });
+
+                //send money/ethers to the transport contract
+                await web3.eth.sendTransaction({from : user.eth_Account, to : TransportAddress, value : process.env.transportCost});
+
+                // receive money from product contract for respective raw material
+               console.log(result.Price) 
+               console.log(result.Product) 
+               console.log(user.eth_Account) 
+            //    await web3.eth.sendTransaction({from : result.Product, to : user.eth_Account,  value :result.Price});
+
+                res.send({Success : true})
+            }
+            else {
+                res.send({ Success: false, Status: "Cannot fulfill the request" })
+            }
+        })
+
+    })
+
+
+})
 
 export default router;

@@ -1,5 +1,5 @@
 {
-  "contractName": "Customer",
+  "contractName": "Distributor",
   "abi": [
     {
       "inputs": [],
@@ -29,31 +29,31 @@
       "signature": "0x38cc4831"
     }
   ],
-  "bytecode": "0x608060405260c9806100126000396000f3fe608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806338cc4831146041575b005b348015604c57600080fd5b5060536095565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60003090509056fea165627a7a72305820a487d0a7e19282d2c3cd13573fcda4bdfdf358ae549f6f2efcc4c90755f0c9760029",
-  "deployedBytecode": "0x608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806338cc4831146041575b005b348015604c57600080fd5b5060536095565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60003090509056fea165627a7a72305820a487d0a7e19282d2c3cd13573fcda4bdfdf358ae549f6f2efcc4c90755f0c9760029",
-  "sourceMap": "59:242:1:-;;;;;;;;;",
-  "deployedSourceMap": "59:242:1:-;;;;;;;;;;;;;;;;;;;;;;201:91;;8:9:-1;5:2;;;30:1;27;20:12;5:2;201:91:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;245:7;279:4;264:20;;201:91;:::o",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity 0.5.0;\r\n\r\ncontract Customer{\r\n    \r\n    constructor() public payable{}\r\n    //ethers receive and sent section\r\n    function() external payable{}\r\n\r\n    function getAddress()  public view returns (address){\r\n        return address(this);\r\n    }\r\n    \r\n}",
-  "sourcePath": "D:\\Mini-Project-Sem-4\\Supply-Chain-and-Logistics-Blockchain\\backend\\blockchain\\contracts\\Customer.sol",
+  "bytecode": "0x608060405260c9806100126000396000f3fe608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806338cc4831146041575b005b348015604c57600080fd5b5060536095565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60003090509056fea165627a7a72305820149bc55d55c19403df4fc68194301ce7bc6800a77304694e3f564012753a61440029",
+  "deployedBytecode": "0x608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806338cc4831146041575b005b348015604c57600080fd5b5060536095565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60003090509056fea165627a7a72305820149bc55d55c19403df4fc68194301ce7bc6800a77304694e3f564012753a61440029",
+  "sourceMap": "59:235:2:-;;;;;;;;;",
+  "deployedSourceMap": "59:235:2:-;;;;;;;;;;;;;;;;;;;;;;200:91;;8:9:-1;5:2;;;30:1;27;20:12;5:2;200:91:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;244:7;278:4;263:20;;200:91;:::o",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity 0.5.0;\r\n\r\ncontract Distributor{\r\n\r\n    constructor() public payable{}\r\n    //ethers receive and sent section\r\n    function() external payable{}\r\n\r\n    function getAddress()  public view returns (address){\r\n        return address(this);\r\n    }\r\n}",
+  "sourcePath": "D:\\Mini-Project-Sem-4\\Supply-Chain-and-Logistics-Blockchain\\backend\\blockchain\\contracts\\Distributor.sol",
   "ast": {
-    "absolutePath": "/D/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Customer.sol",
+    "absolutePath": "/D/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Distributor.sol",
     "exportedSymbols": {
-      "Customer": [
-        332
+      "Distributor": [
+        353
       ]
     },
-    "id": 333,
+    "id": 354,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 313,
+        "id": 334,
         "literals": [
           "solidity",
           "0.5",
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:22:1"
+        "src": "33:22:2"
       },
       {
         "baseContracts": [],
@@ -61,82 +61,82 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 332,
+        "id": 353,
         "linearizedBaseContracts": [
-          332
+          353
         ],
-        "name": "Customer",
+        "name": "Distributor",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 316,
+              "id": 337,
               "nodeType": "Block",
-              "src": "117:2:1",
+              "src": "116:2:2",
               "statements": []
             },
             "documentation": null,
-            "id": 317,
+            "id": 338,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 314,
+              "id": 335,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "100:2:1"
+              "src": "99:2:2"
             },
             "returnParameters": {
-              "id": 315,
+              "id": 336,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "117:0:1"
+              "src": "116:0:2"
             },
-            "scope": 332,
-            "src": "89:30:1",
+            "scope": 353,
+            "src": "88:30:2",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 320,
+              "id": 341,
               "nodeType": "Block",
-              "src": "191:2:1",
+              "src": "190:2:2",
               "statements": []
             },
             "documentation": null,
-            "id": 321,
+            "id": 342,
             "implemented": true,
             "kind": "fallback",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 318,
+              "id": 339,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "172:2:1"
+              "src": "171:2:2"
             },
             "returnParameters": {
-              "id": 319,
+              "id": 340,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "191:0:1"
+              "src": "190:0:2"
             },
-            "scope": 332,
-            "src": "164:29:1",
+            "scope": 353,
+            "src": "163:29:2",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 330,
+              "id": 351,
               "nodeType": "Block",
-              "src": "253:39:1",
+              "src": "252:39:2",
               "statements": [
                 {
                   "expression": {
@@ -144,39 +144,39 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 327,
+                        "id": 348,
                         "name": "this",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 860,
-                        "src": "279:4:1",
+                        "referencedDeclaration": 856,
+                        "src": "278:4:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Customer_$332",
-                          "typeString": "contract Customer"
+                          "typeIdentifier": "t_contract$_Distributor_$353",
+                          "typeString": "contract Distributor"
                         }
                       }
                     ],
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_contract$_Customer_$332",
-                          "typeString": "contract Customer"
+                          "typeIdentifier": "t_contract$_Distributor_$353",
+                          "typeString": "contract Distributor"
                         }
                       ],
-                      "id": 326,
+                      "id": 347,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "lValueRequested": false,
                       "nodeType": "ElementaryTypeNameExpression",
-                      "src": "271:7:1",
+                      "src": "270:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_type$_t_address_$",
                         "typeString": "type(address)"
                       },
                       "typeName": "address"
                     },
-                    "id": 328,
+                    "id": 349,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -184,43 +184,43 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "271:13:1",
+                    "src": "270:13:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address_payable",
                       "typeString": "address payable"
                     }
                   },
-                  "functionReturnParameters": 325,
-                  "id": 329,
+                  "functionReturnParameters": 346,
+                  "id": 350,
                   "nodeType": "Return",
-                  "src": "264:20:1"
+                  "src": "263:20:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 331,
+            "id": 352,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getAddress",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 322,
+              "id": 343,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "220:2:1"
+              "src": "219:2:2"
             },
             "returnParameters": {
-              "id": 325,
+              "id": 346,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 324,
+                  "id": 345,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 331,
-                  "src": "245:7:1",
+                  "scope": 352,
+                  "src": "244:7:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -228,10 +228,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 323,
+                    "id": 344,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "245:7:1",
+                    "src": "244:7:2",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -242,40 +242,40 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "244:9:1"
+              "src": "243:9:2"
             },
-            "scope": 332,
-            "src": "201:91:1",
+            "scope": 353,
+            "src": "200:91:2",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 333,
-        "src": "59:242:1"
+        "scope": 354,
+        "src": "59:235:2"
       }
     ],
-    "src": "33:268:1"
+    "src": "33:261:2"
   },
   "legacyAST": {
-    "absolutePath": "/D/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Customer.sol",
+    "absolutePath": "/D/Mini-Project-Sem-4/Supply-Chain-and-Logistics-Blockchain/backend/blockchain/contracts/Distributor.sol",
     "exportedSymbols": {
-      "Customer": [
-        332
+      "Distributor": [
+        353
       ]
     },
-    "id": 333,
+    "id": 354,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 313,
+        "id": 334,
         "literals": [
           "solidity",
           "0.5",
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:22:1"
+        "src": "33:22:2"
       },
       {
         "baseContracts": [],
@@ -283,82 +283,82 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 332,
+        "id": 353,
         "linearizedBaseContracts": [
-          332
+          353
         ],
-        "name": "Customer",
+        "name": "Distributor",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 316,
+              "id": 337,
               "nodeType": "Block",
-              "src": "117:2:1",
+              "src": "116:2:2",
               "statements": []
             },
             "documentation": null,
-            "id": 317,
+            "id": 338,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 314,
+              "id": 335,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "100:2:1"
+              "src": "99:2:2"
             },
             "returnParameters": {
-              "id": 315,
+              "id": 336,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "117:0:1"
+              "src": "116:0:2"
             },
-            "scope": 332,
-            "src": "89:30:1",
+            "scope": 353,
+            "src": "88:30:2",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 320,
+              "id": 341,
               "nodeType": "Block",
-              "src": "191:2:1",
+              "src": "190:2:2",
               "statements": []
             },
             "documentation": null,
-            "id": 321,
+            "id": 342,
             "implemented": true,
             "kind": "fallback",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 318,
+              "id": 339,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "172:2:1"
+              "src": "171:2:2"
             },
             "returnParameters": {
-              "id": 319,
+              "id": 340,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "191:0:1"
+              "src": "190:0:2"
             },
-            "scope": 332,
-            "src": "164:29:1",
+            "scope": 353,
+            "src": "163:29:2",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 330,
+              "id": 351,
               "nodeType": "Block",
-              "src": "253:39:1",
+              "src": "252:39:2",
               "statements": [
                 {
                   "expression": {
@@ -366,39 +366,39 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 327,
+                        "id": 348,
                         "name": "this",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 860,
-                        "src": "279:4:1",
+                        "referencedDeclaration": 856,
+                        "src": "278:4:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Customer_$332",
-                          "typeString": "contract Customer"
+                          "typeIdentifier": "t_contract$_Distributor_$353",
+                          "typeString": "contract Distributor"
                         }
                       }
                     ],
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_contract$_Customer_$332",
-                          "typeString": "contract Customer"
+                          "typeIdentifier": "t_contract$_Distributor_$353",
+                          "typeString": "contract Distributor"
                         }
                       ],
-                      "id": 326,
+                      "id": 347,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "lValueRequested": false,
                       "nodeType": "ElementaryTypeNameExpression",
-                      "src": "271:7:1",
+                      "src": "270:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_type$_t_address_$",
                         "typeString": "type(address)"
                       },
                       "typeName": "address"
                     },
-                    "id": 328,
+                    "id": 349,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -406,43 +406,43 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "271:13:1",
+                    "src": "270:13:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address_payable",
                       "typeString": "address payable"
                     }
                   },
-                  "functionReturnParameters": 325,
-                  "id": 329,
+                  "functionReturnParameters": 346,
+                  "id": 350,
                   "nodeType": "Return",
-                  "src": "264:20:1"
+                  "src": "263:20:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 331,
+            "id": 352,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getAddress",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 322,
+              "id": 343,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "220:2:1"
+              "src": "219:2:2"
             },
             "returnParameters": {
-              "id": 325,
+              "id": 346,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 324,
+                  "id": 345,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 331,
-                  "src": "245:7:1",
+                  "scope": 352,
+                  "src": "244:7:2",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -450,10 +450,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 323,
+                    "id": 344,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "245:7:1",
+                    "src": "244:7:2",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -464,20 +464,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "244:9:1"
+              "src": "243:9:2"
             },
-            "scope": 332,
-            "src": "201:91:1",
+            "scope": 353,
+            "src": "200:91:2",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 333,
-        "src": "59:242:1"
+        "scope": 354,
+        "src": "59:235:2"
       }
     ],
-    "src": "33:268:1"
+    "src": "33:261:2"
   },
   "compiler": {
     "name": "solc",
@@ -487,12 +487,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x4A8fC36c8338765CD5cdf36E2ac1Ba03079CfE6C",
-      "transactionHash": "0x29f975c2cc0be4e2cf5559cfcaabee8cc3abd9aa80d166d6f74125c6756710c9"
+      "address": "0x49B1A13873314A2c8c32f5Cc237d80ECc45c67E7",
+      "transactionHash": "0xe66436ac93b09910bf8d5f8f94b9584b4e8ba0570fbae269a1770121cd9fffd7"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2022-04-05T07:04:57.666Z",
+  "updatedAt": "2022-04-05T07:04:55.928Z",
   "devdoc": {
     "methods": {}
   },

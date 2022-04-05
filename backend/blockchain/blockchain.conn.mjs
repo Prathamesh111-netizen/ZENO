@@ -22,7 +22,16 @@ const require = createRequire(import.meta.url);
 // import smart contracts .json
 const test_artifacts = require("./build/contracts/test.json");
 const manufacturer_artifacts = require("./build/contracts/Manufacturer.json");
+const distributor_artifacts = require("./build/contracts/Distributor.json");
+const retailer_artifacts = require("./build/contracts/Retailer.json");
+const customer_artifacts = require("./build/contracts/Customer.json");
+const product_artifacts = require("./build/contracts/Product.json");
+const transport_artifacts = require("./build/contracts/Transport.json")
 const contracts_factory_artifacts = require("./build/contracts/Contracts_Factory.json");
+
+
+
+// Contracts Section :
 
 // Test Contract
 const Test = contract(test_artifacts)
@@ -30,10 +39,26 @@ Test.setProvider(web3.currentProvider)
 const dummy = await Test.deployed();
 
 // Manufacturer Contract
-const _manufacturer_artifacts = contract(manufacturer_artifacts);
-_manufacturer_artifacts.setProvider(web3.currentProvider)
-const manufacturer = await _manufacturer_artifacts.deployed();
+// const _manufacturer_artifacts = contract(manufacturer_artifacts);
+// _manufacturer_artifacts.setProvider(web3.currentProvider)
+// const manufacturer = await _manufacturer_artifacts.deployed();
 const manufacturer_ABI = manufacturer_artifacts.abi;
+
+
+// Distributor Contract
+const distributor_ABI = distributor_artifacts.abi;
+
+// Retailer Contract
+const retailer_ABI = retailer_artifacts.abi;
+
+// Customer Contract 
+const customer_ABI = customer_artifacts.abi;
+
+// Product Contract
+const product_ABI = product_artifacts.abi;
+
+// Transport Contract
+const transport_ABI = transport_artifacts.abi;
 
 // Contracts_Factory Contract
 const _factory_artifacts = contract(contracts_factory_artifacts);
@@ -44,7 +69,12 @@ const factory = await _factory_artifacts.deployed();
 export {
     web3,
     dummy,
-    manufacturer_artifacts, _manufacturer_artifacts, manufacturer, manufacturer_ABI,
+    manufacturer_ABI,
+    distributor_ABI,
+    retailer_ABI,
+    customer_ABI,
+    product_ABI,
+    transport_ABI,
     factory
 };
 
