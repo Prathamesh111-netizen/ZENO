@@ -56,12 +56,12 @@ from "./routes/index.mjs";
 // separate auth for each category later
 
 // app.use('/test', solidity_testing);
-// app.use('/manufacturer', authentication, eth_manufacturer);
-// app.use('/retailer', authentication, eth_retailer);
-// app.use('/distributor', authentication, eth_distributor);
 
-// testing
-// app.use('/', userView);
-// app.use('/register', RegisterRouter);
+// testing - final routes
+app.use('/', userView);
+app.use('/register', RegisterRouter);
+app.use('/manufacturer', authentication, eth_manufacturer);
+app.use('/retailer', authentication, eth_retailer);
+app.use('/distributor', authentication, eth_distributor);
 
 

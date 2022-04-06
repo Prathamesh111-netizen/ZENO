@@ -28,7 +28,7 @@ router.post('/produce-material', async (req, res) => {
     await contractInstance.methods.produce(_material, _capacity).send({ from: process.env.defaultAccount });
 
     // update on database
-    await db.rawMaterial.findOne({ _id : user._id}).then(async (result) => {
+    await db.rawMaterial.findOne({ Owner : user.ContractAddress, Material : req.body.Material}).then(async (result) => {
 
         if (result == null) {
             await db.rawMaterial.create({
@@ -48,7 +48,8 @@ router.post('/produce-material', async (req, res) => {
         }
     });
 
-    res.send({ Success: true });
+    // res.send({ Success: true });
+    return res.redirect('/manufacturer-Page');
 
 });
 
@@ -61,10 +62,10 @@ router.post('/accept-request', async (req, res) => {
 
     const user = req.cookies.accessToken; // accessing cookie
     
-    await db.productRequest.findOne({ _id: req.body.RequestID }).then(async (result) => {
+    await db.productRequest.findOne({ Product: req.body.Product, Material:req.body.Material, IsActive : true }).then(async (result) => {
         console.log(result);
         if (result == null)
-            return res.send({Success : false});
+            return res.redirect('/manufacturer-Page');
 
         // const _capacity = await contractInstance.methods.available(result.Material).call();
         const productContract = await new web3.eth.Contract(product_ABI, result.Product);
@@ -82,11 +83,11 @@ router.post('/accept-request', async (req, res) => {
                 await productContract.methods.acceptRequest(result.Material).send({ from: process.env.defaultAccount });
 
                 // Update the productrequests collection
-                await db.productRequest.updateOne(result, {$set : {Status : "Raw Material is with distributor"}});
+                await db.productRequest.updateOne(result, {$set : {Status : "Transport-request-raised", IsAcceptedbyManufacturer : true}});
 
                 // Update the database entry for Request
                 if (parseInt(docs.Capacity) == parseInt(result.Capacity))
-                    await db.rawMaterial.updateOne(docs, { $set: {IsActive : false, Capacity: 0 }});
+                    await db.rawMaterial.updateOne(docs, { $set: {Capacity: 0 }});
                 else
                     await db.rawMaterial.updateOne(docs, { $set: { Capacity: parseInt(docs.Capacity) - parseInt(result.Capacity)}});
 
@@ -108,6 +109,7 @@ router.post('/accept-request', async (req, res) => {
                     Product : result.Product,
                     Material : result.Material,
                     Capacity : result.Capacity,
+                    Retailer : result.Owner,
                     Manufacturer : user.ContractAddress,
                     currentOwner : user.ContractAddress,
                     Status : "Setup request"
@@ -121,16 +123,19 @@ router.post('/accept-request', async (req, res) => {
                console.log(result.Product) 
                console.log(user.eth_Account) 
             //    await web3.eth.sendTransaction({from : result.Product, to : user.eth_Account,  value :result.Price});
-
-                res.send({Success : true})
+                console.log("good")
+                // res.send({Success : true})
+                return res.redirect('/manufacturer-Page');
             }
             else {
-                res.send({ Success: false, Status: "Cannot fulfill the request" })
+                // res.send({ Success: false, Status: "Cannot fulfill the request" })
+                console.log("ded")
+                return res.redirect('/manufacturer-Page');
             }
         })
 
     })
-
+    // return res.redirect('/manufacturer-Page');
 
 })
 

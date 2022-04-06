@@ -7,11 +7,11 @@ const router = express.Router();
 
 router.post('/accept-request', async (req, res) => {
 
-    // html form only with single field Transport ID
+    // html form only with single field Transport address
     
     const user = req.cookies.accessToken;
     
-    await db.transportRequest.findOne({ _id: req.body.TransportID, IsActive : true }).then(async (result) => {
+    await db.transportRequest.findOne({ Transport: req.body.TransportAddress, IsActive : true }).then(async (result) => {
         
         console.log(result)
         if (result == null)
@@ -22,7 +22,7 @@ router.post('/accept-request', async (req, res) => {
         await transportContract.methods.acceptRequest(result.Material).send({from : process.env.defaultAccount});
 
         // update on database : chnage currentOwner, status
-        await db.transportRequest.updateOne(result , {$set : {currentOwner : user.ContractAddress, Status : "Material is with Distributor"}});
+        await db.transportRequest.updateOne(result , {$set : {currentOwner : user.ContractAddress, Status : "Material is with Distributor", IsAcceptedbyDistributor : true}});
 
         // accept money from transport contract
         const allBalance = await web3.eth.getBalance(result.Transport)
@@ -31,10 +31,8 @@ router.post('/accept-request', async (req, res) => {
     
     })  
 
-    res.send({Success : true })
-
-
-
+    // res.send({Success : true })
+    res.redirect('/distributor-Page');
 
 })
 

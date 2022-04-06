@@ -23,7 +23,7 @@ router.post('/create-product', async (req, res) => {
     // const contractInstance = await new web3.eth.Contract(retailer_ABI, user.ContractAddress);
 
     const product = {};
-    product.Retailer = user.ContractAddress;
+    product.Owner = user.ContractAddress;
     product.Product = req.body.Product;
     product.Price = req.body.Price;
 
@@ -44,7 +44,8 @@ router.post('/create-product', async (req, res) => {
     // update on database
     await db.product.create(product);
 
-    res.send({ Success: true });
+    // res.send({ Success: true });
+    res.redirect('/retailer-page');
 });
 
 
@@ -57,14 +58,15 @@ router.post('/setup-raw-material-request', async (req, res) => {
     const user = req.cookies.accessToken; // accessing cookie
 
     // created a new contract for product
-    await factory.createProduct(user.ContractAddress, { from: process.env.defaultAccount });
+    // user.ContractAddress is owner
+    await factory.createProduct(user.ContractAddress, { from: process.env.defaultAccount }); 
     const index = await factory.get_product_SIZE();
     const allProducts = await factory.allProducts();
     const ContractAddress = allProducts[index - 1];
     const productContract = await new web3.eth.Contract(product_ABI, ContractAddress); // product
 
     // access the product details from database and create a request for each one
-    db.product.findOne({ Product: req.body.Product }).then(async (result) => {
+    db.product.findOne({ Product: req.body.Product , Owner : user.ContractAddress}).then(async (result) => {
 
         console.log(result)
         // setup request // accepted request by manufacturer // raw material with distributor // raw material received
@@ -74,26 +76,29 @@ router.post('/setup-raw-material-request', async (req, res) => {
             result.Requirement.forEach(async (element) => {
                 await db.productRequest.create({
                     Product: ContractAddress,
-                    Retailer: user.ContractAddress,
+                    Owner: user.ContractAddress,
                     Material: element._material,
                     Capacity: element._capacity,
                     Price: element._price,
                     currentOwner: user.ContractAddress,
-                    Status: "Request setup",
+                    Status: "Request-raised",
                 })
                 // console.log(user.ContractAddress)
                 // console.log(user.eth_A)
                 // console.log(ContractAddress)
+
+                // sent money to the smart contract for material price
                 await web3.eth.sendTransaction({ from: user.eth_Account, to: ContractAddress, value: element._price });
 
                 await productContract.methods.setRequests(element._material).send({ from: process.env.defaultAccount });
 
             });
 
-            res.send({ Success: true })
+            // res.send({ Success: true })
+            res.redirect('/retailer-page');
         }
         else
-            return res.send({ Success: false })
+        res.redirect('/retailer-page');// return res.send({ Success: false })
     })
 
 });
@@ -102,19 +107,19 @@ router.post('/setup-raw-material-request', async (req, res) => {
 router.post('/confirm-fulfillment-of-request', async (req, res) => {
 
 
-    // to contract needs to fulfill at the same, html form will have 2 fields : product and transport address
+    // to contract needs to fulfill at the same, html form will have 2 fields : product Address and transport address
 
     // accessing the cookie
     const user = req.cookies.accessToken;
 
 
-    await db.transportRequest.findOne({ _id: req.body.TransportID, IsActive: true }).then(async (result) => {
+    await db.transportRequest.findOne({ Transport: req.body.TransportAddress, IsActive: true }).then(async (result) => {
 
         if (result == null)
             return res.send({ Success: false });
         else {
             // update the Product contract
-            const productContract = await new web3.eth.Contract(product_ABI, result.Product);
+            const productContract = await new web3.eth.Contract(product_ABI, req.body.ProductAddress);
             await productContract.methods.fulfillRequest(result.Material).send({ from: process.env.defaultAccount });
 
             // update the Transport Contract
@@ -122,7 +127,7 @@ router.post('/confirm-fulfillment-of-request', async (req, res) => {
             await transportContract.methods.fulfillRequest(result.Material).send({ from: process.env.defaultAccount });
 
             // update productrequest collection in database
-            await db.productRequest.updateOne({ Product: result.Product }, {
+            await db.productRequest.updateOne({ Product: req.body.ProductAddress }, {
                 $set: {
                     currentOwner: user.ContractAddress,
                     Status: "Raw material received by retailer",
@@ -132,7 +137,7 @@ router.post('/confirm-fulfillment-of-request', async (req, res) => {
             });
 
             // update transportRequest collection in database
-            await db.transportRequest.updateOne({ Transport: result.Transport }, {
+            await db.transportRequest.updateOne({ Transport: req.body.TransportAddress }, {
                 $set: {
                     currentOwner: user.ContractAddress,
                     Status: "Raw material received by retailer",
@@ -149,7 +154,8 @@ router.post('/confirm-fulfillment-of-request', async (req, res) => {
                     await db.rawMaterial.create({
                         Owner: user.ContractAddress,
                         Material: result.Material,
-                        Capacity : result.Capacity
+                        Capacity : result.Capacity,
+                        Price : '100'
                     });
                 }
                 else {
@@ -161,8 +167,9 @@ router.post('/confirm-fulfillment-of-request', async (req, res) => {
                     });
                 }
             });
-
-            return res.send({ Success: true });
+            // pay the distributor his money from smart contract
+            // 
+            res.redirect('/retailer-page');
         }
     })
 

@@ -64,8 +64,10 @@
     <!-- Alert -->
     <div id="popup">
         <div>
+            <% if (Data.Alert != "") {%>
             <p><%= Data.Alert %></p>
             <input type="submit" value="x" onclick="remove()">
+            <% }%>
         </div>
     </div>
 
@@ -93,10 +95,11 @@
 
     <!-- Input form section -->
 <div class = "form-for-data-upload">
-    <h2><img src="https://cdn-icons-png.flaticon.com/512/1486/1486433.png" alt="" width="40px"> Data Form</h4>
-    <form action="" method="post" class = "dataform">
-        <input type="text" name = "Email" placeholder="Email">
-        <input type="text" name = "Email" placeholder="Email">
+    <h2><img src="https://cdn-icons-png.flaticon.com/512/1486/1486433.png" alt="" width="40px">Update Raw Material</h4>
+    <form action="/manufacturer/produce-material" method="post" class = "dataform">
+        <input type="text" name = "Material" placeholder="Material">
+        <input type="text" name = "Capacity" placeholder="Capacity">
+        <input type="text" name = "Price" placeholder="Price">
         <input type="submit" value = "Submit">
     </form>
     </div>
@@ -111,30 +114,66 @@
         }
     </style>
 
-    <!-- Table / Collection Section -->
-    <div>
-        <h2>Requests on the Network</h2>
+<!-- available stock -->
+<div>
+    <h2> <img src="https://cdn-icons-png.flaticon.com/512/172/172150.png" alt="" width="30px"> Current Stock</h2>
+    <% if (Data.Stock.length == 0) {%>
+            <h3>No stock present</h3>  
+            <% } %>
+            <div class = "box">
+                
+                <% if (Data.Stock) { for (const stock of Data.Stock) { %>
+                    <div class="card">
+                        <div class = "container">
+                            <form >
+                                <% if (stock != {}) { %>
+                                    <label for="country"> Material :</label>
+                                    <input type="text" name="Material" readonly value= <%= stock.Material %> ><br><br>
+                                    <label for="country"> Capacity :</label>
+                                    <input type="text" name="Capacity" readonly value= <%= stock.Capacity %> ><br><br>
+                                    <label for="country"> Price :</label>
+                                    <input type="text"  name="Price" readonly value= <%= stock.Price %> ><br><br>
+                                    <!-- <input type="submit" value="Accept Request"> -->
+                                    <% } %>
+                                    </form>
+                                </div>
+            </div>
+            <% } } %>
+              
+            </div>
+        </div>
+        <!-- Table / Collection Section -->
+        <div>
+            <h2> <img src="https://www.clipartmax.com/png/middle/255-2552677_cluster-icons-foodprocessing-blue-food-raw-materials-icon.png" alt="" width="40px"> Raw Material Requests on the Network</h2>
+        <% if (Data.Requests.length == 0) {%>
+            <h3>No requests present</h3>  
+        <% } %>
         <div class = "box">
         
-             <% if (Data.Requests != []) { for (const Request of Data.Requests) { %>
+             <% if (Data.Requests) { for (const Request of Data.Requests) { %>
             <div class="card">
                 <div class = "container">
-                    <form action="/action_page.php">
-                        <% if (Request != {}) { for (var prop in Request) { %>
-                        <label for="country"> <%=prop%> :</label>
-                        <input type="text" id="country" name="country" value= <%= Request[prop] %> readonly><br><br>
-                        <% } %>
+                    <% if (Request != {}) {  %>
+                    <form action="/manufacturer/accept-request" method="post">
+                        <label for="Material"> Product :</label>
+                        <input type="text" readonly name="Product" value= <%= Request.Product %> ><br><br>
+                        <label for="Material"> Material :</label>
+                        <input type="text" readonly name="Material" value= <%= Request.Material %> ><br><br>
+                        <label for="Capacity"> Capacity :</label>
+                        <input type="text" readonly name="Capacity" value= <%= Request.Capacity %> ><br><br>
+                        <label for="Price"> Price:</label>
+                        <input type="text" readonly name="Price" value= <%= Request.Price %> ><br><br>
                         <input type="submit" value="Accept Request">
-                        <% } else {%>
-                            No data available
-                        <% } %>
                     </form>
+                    <% } %>
                 </div>
             </div>
-            <% } } else {%>
-                No data available
-            <% } %>
-
+            <% }} %>
+           
+              
+              
+              
+            
 </div>
 </div>
     <div>

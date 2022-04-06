@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
-     Retailer : String,
+     Owner : String,
      Product: String,
      Price : Number,
      Requirement : [{_material : String, _capacity : Number, _price : Number }],

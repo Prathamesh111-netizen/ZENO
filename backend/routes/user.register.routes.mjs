@@ -10,6 +10,7 @@ const router = express.Router();
 
 // Create a new instance of smart contract , for each type of user
 
+
 // Creating a new Manfacturer
 router.post('/create-manufacturer', async (req, res)=>{
     console.log(req.body)
@@ -66,7 +67,8 @@ router.post('/create-distributor', async (req, res)=>{
 
     // final operation
     db.user.create(user);
-    res.send(user);
+    // res.send(user);
+    res.redirect("/login-page");
 })
 
 router.post('/create-retailer', async (req, res)=>{
@@ -91,7 +93,8 @@ router.post('/create-retailer', async (req, res)=>{
 
     // final operation
     db.user.create(user);
-    res.send(user);
+    // res.send(user);
+    res.redirect("/login-page");
 })
 
 router.post('/create-customer', async (req, res)=>{
@@ -110,13 +113,15 @@ router.post('/create-customer', async (req, res)=>{
     const Accounts = await factory.getEthAccount();
     const E_index = await factory.getIndex();
     await factory.incrementIndex({from : process.env.defaultAccount});
-    
+    // console.log(Accounts)
+    // console.log(E_index)
     user.ContractAddress = contractAddress;
     user.eth_Account = Accounts[E_index];
 
     // final operation
     db.user.create(user);
-    res.send(user);
+    // res.send(user);
+    res.redirect("/login-page");
 })
 
 router.get('/login', async (req, res)=>{
@@ -139,13 +144,13 @@ router.get('/login', async (req, res)=>{
 
             // redirect to the respective page according to the role
             if (result.Role == "Manufacturer"){
-                
+                return res.redirect('/manufacturer-Page');
             }
             else if (result.Role == "Distributor"){
-
+                return res.redirect('/distributor-Page');
             }
             else if (result.Role == "Retailer"){
-
+                return res.redirect('/retailer-Page');
             }
             else if (result.Role == "Customer"){
 
