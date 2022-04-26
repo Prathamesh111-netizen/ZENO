@@ -49,6 +49,7 @@ import {
   eth_manufacturer,
   eth_retailer,
   eth_distributor,
+  eth_digichambers,
   userView
 }
 from "./routes/index.mjs";
@@ -63,5 +64,6 @@ app.use('/register', RegisterRouter);
 app.use('/manufacturer', authentication, eth_manufacturer);
 app.use('/retailer', authentication, eth_retailer);
 app.use('/distributor', authentication, eth_distributor);
+app.use('/digichambers', authentication, eth_digichambers)
 
 

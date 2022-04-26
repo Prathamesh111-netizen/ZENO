@@ -5,7 +5,8 @@ import {
     manufacturer_ABI,
     distributor_ABI,
     transport_ABI,
-    product_ABI
+    product_ABI,
+    DigiChambers
 } from "../blockchain/blockchain.conn.mjs";
 
 import db from "../models/index.mjs";
@@ -15,38 +16,51 @@ const router = express.Router();
 router.post('/produce-material', async (req, res) => {
 
     const user = req.cookies.accessToken;
-    console.log(user)
-    const contractInstance = await new web3.eth.Contract(manufacturer_ABI, user.ContractAddress);
+    // console.log(user)
+    // const contractInstance = await new web3.eth.Contract(manufacturer_ABI, user.ContractAddress);
 
     // const contractAddress;
     const _material = req.body.Material;
     const _capacity = req.body.Capacity;
-    const _price = req.body.Price;
 
-
-    // update on blockchain
-    await contractInstance.methods.produce(_material, _capacity).send({ from: process.env.defaultAccount });
-
-    // update on database
-    await db.rawMaterial.findOne({ Owner : user.ContractAddress, Material : req.body.Material}).then(async (result) => {
-
-        if (result == null) {
-            await db.rawMaterial.create({
+    // now only raise a request for Certificate of Origin
+    await db.certificateRequest.create({
                 Owner : user.ContractAddress,
+                CurrentPossesion : user.ContractAddress,
                 Material : _material,
-                Price: _price,
-                Capacity: parseInt(_capacity)
-            });
-        }
-        else {
-            await db.rawMaterial.updateOne(result, {
-                $set: {
-                    Capacity: parseInt(result.Capacity) + parseInt(_capacity),
-                    Price: parseInt(result.Price) + parseInt(_price)
-                }
-            });
-        }
+                Capacity: parseInt(_capacity),
+                CertificateID :  (Math.random() + 1).toString(36).substring(7),
+                Status : "Request Raised for Certificate of Origin"
     });
+
+
+
+    // after approval from DigiChambers, update will be take place on the database and  blockchain
+
+
+    // // update on blockchain
+    // await contractInstance.methods.produce(_material, _capacity).send({ from: process.env.defaultAccount });
+
+    // // update on database
+    // await db.rawMaterial.findOne({ Owner : user.ContractAddress, Material : req.body.Material}).then(async (result) => {
+
+    //     if (result == null) {
+    //         await db.rawMaterial.create({
+    //             Owner : user.ContractAddress,
+    //             Material : _material,
+    //             Price: _price,
+    //             Capacity: parseInt(_capacity)
+    //         });
+    //     }
+    //     else {
+    //         await db.rawMaterial.updateOne(result, {
+    //             $set: {
+    //                 Capacity: parseInt(result.Capacity) + parseInt(_capacity),
+    //                 Price: parseInt(result.Price) + parseInt(_price)
+    //             }
+    //         });
+    //     }
+    // });
 
     // res.send({ Success: true });
     return res.redirect('/manufacturer-Page');
@@ -139,4 +153,26 @@ router.post('/accept-request', async (req, res) => {
 
 })
 
+
+
+// send tenders for particular product raw material requests
+router.post('/send-raw-material-tender', async (req, res)=>{
+
+    // after approval
+    // update on blockchain
+
+    console.log(req.body)
+
+    // update on database
+    await db.rawMaterialTender.create({
+        Owner : req.cookies.accessToken.ContractAddress,
+        Product : req.body.ProductAddress,
+        Retailer : req.body.Retailer,
+        Material : req.body.Material,
+        Capacity : req.body.Capacity,
+        Price :  req.body.Price,
+        Status : "Send Proposal for raw material request.",
+    })
+    res.redirect('/manufacturer-page');
+})
 export default router;

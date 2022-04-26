@@ -28,7 +28,7 @@ const customer_artifacts = require("./build/contracts/Customer.json");
 const product_artifacts = require("./build/contracts/Product.json");
 const transport_artifacts = require("./build/contracts/Transport.json")
 const contracts_factory_artifacts = require("./build/contracts/Contracts_Factory.json");
-
+const DigiChambers_Artifacts = require("./build/contracts/DigiChambers.json")
 
 
 // Contracts Section :
@@ -65,6 +65,11 @@ const _factory_artifacts = contract(contracts_factory_artifacts);
 _factory_artifacts.setProvider(web3.currentProvider)
 const factory = await _factory_artifacts.deployed();
 
+// DigiChambers Contract
+const _DigiChambers_Artifacts = contract(DigiChambers_Artifacts);
+_DigiChambers_Artifacts.setProvider(web3.currentProvider)
+const DigiChambers = await _DigiChambers_Artifacts.deployed();
+
 
 export {
     web3,
@@ -75,6 +80,7 @@ export {
     customer_ABI,
     product_ABI,
     transport_ABI,
-    factory
+    factory,
+    DigiChambers
 };
 

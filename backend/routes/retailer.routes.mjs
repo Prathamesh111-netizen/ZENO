@@ -48,8 +48,6 @@ router.post('/create-product', async (req, res) => {
     res.redirect('/retailer-page');
 });
 
-
-
 // set Request for Raw Materials
 router.post('/setup-raw-material-request', async (req, res) => {
 
@@ -65,6 +63,8 @@ router.post('/setup-raw-material-request', async (req, res) => {
     const ContractAddress = allProducts[index - 1];
     const productContract = await new web3.eth.Contract(product_ABI, ContractAddress); // product
 
+    console.log(req.body.Product)
+    console.log(user.ContractAddress)
     // access the product details from database and create a request for each one
     db.product.findOne({ Product: req.body.Product , Owner : user.ContractAddress}).then(async (result) => {
 
@@ -94,12 +94,102 @@ router.post('/setup-raw-material-request', async (req, res) => {
 
             });
 
-            // res.send({ Success: true })
-            res.redirect('/retailer-page');
+            res.send({ Success: true })
+            // res.redirect('/retailer-page');
         }
         else
-        res.redirect('/retailer-page');// return res.send({ Success: false })
+            // res.redirect('/retailer-page');
+            return res.send({ Success: false })
     })
+
+});
+
+
+// approve the tender
+router.post('/approve-raw-material-tender', async(req, res)=>{
+    
+    // product and rawmaterial
+
+    // update on the database
+    await db.rawMaterialTender.updateOne({Material : req.body.Material, Product : req.body.Price, Owner : req.body.Owner},
+        {$set : { Status : "Approved"}});
+
+    // acceptance of request by manufacturer here
+    const user = req.body.Owner; // accessing cookie
+    
+    await db.productRequest.findOne({ Product: req.body.Product, Material:req.body.Material, IsActive : true }).then(async (result) => {
+        console.log(result);
+        if (result == null)
+            return res.redirect('/retailer-Page');
+
+    const productContract = await new web3.eth.Contract(product_ABI, result.Product);
+
+        await db.rawMaterial.findOne({
+            Owner : user.ContractAddress,
+            Material : result.Material,
+            IsActive : true
+        }).then(async (docs) => {
+            // console.log(docs)
+            if (parseInt(docs.Capacity) >= parseInt(result.Capacity)) {
+                
+                // accept the request here : make transaction log on blockchain 
+                // Update the Product Contract details
+                await productContract.methods.acceptRequest(result.Material).send({ from: process.env.defaultAccount });
+
+                // Update the productrequests collection
+                await db.productRequest.updateOne(result, {$set : {Status : "Transport-request-raised", IsAcceptedbyManufacturer : true}});
+
+                // Update the database entry for Request
+                if (parseInt(docs.Capacity) == parseInt(result.Capacity))
+                    await db.rawMaterial.updateOne(docs, { $set: {Capacity: 0 }});
+                else
+                    await db.rawMaterial.updateOne(docs, { $set: { Capacity: parseInt(docs.Capacity) - parseInt(result.Capacity)}});
+
+                
+                // Request for Transport  : make transport contract instance, send money, make db entry
+                await factory.createTransport(user.ContractAddress, {from : process.env.defaultAccount});
+                const alltransport = await factory.allTransports();
+                const index = await factory.get_transport_SIZE();
+
+                const TransportAddress = alltransport[index - 1];
+
+                const Transport = await new web3.eth.Contract(transport_ABI, TransportAddress);
+
+                // set-requests on blockchain & database
+                await Transport.methods.setRequests(result.Material).send({ from: process.env.defaultAccount }); // blockchain
+                
+                await db.transportRequest.create({
+                    Transport : TransportAddress,
+                    Product : result.Product,
+                    Material : result.Material,
+                    Capacity : result.Capacity,
+                    Retailer : result.Owner,
+                    Manufacturer : user.ContractAddress,
+                    currentOwner : user.ContractAddress,
+                    Status : "Setup request"
+                });
+
+                //send money/ethers to the transport contract
+                await web3.eth.sendTransaction({from : user.eth_Account, to : TransportAddress, value : process.env.transportCost});
+
+                // receive money from product contract for respective raw material
+               console.log(result.Price) 
+               console.log(result.Product) 
+               console.log(user.eth_Account) 
+            //    await web3.eth.sendTransaction({from : result.Product, to : user.eth_Account,  value :result.Price});
+                console.log("good")
+                // res.send({Success : true})
+                return res.redirect('/manufacturer-Page');
+            }
+            else {
+                // res.send({ Success: false, Status: "Cannot fulfill the request" })
+                console.log("ded")
+                return res.redirect('/manufacturer-Page');
+            }
+        })
+
+    })
+
 
 });
 

@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema({
      Owner : String,
      Material: String,
-     Price : Number,
      Capacity : Number,
+     CertificateID : String,
      IsActive : {type : Boolean, default : true},
      timestamp: { type: Date, default: Date.now}
 });

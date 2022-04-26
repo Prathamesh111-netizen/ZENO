@@ -5,6 +5,8 @@ import RegisterRouter from "./user.register.routes.mjs";
 import eth_manufacturer from "./manufacturer.routes.mjs";
 import eth_retailer from "./retailer.routes.mjs";
 import eth_distributor from "./distributor.routes.mjs"
+import eth_digichambers from "./digiChambers.routes.mjs"
+
 
 export {
     authentication,
@@ -13,5 +15,6 @@ export {
     solidity_testing,
     eth_manufacturer,
     eth_retailer,
-    eth_distributor
+    eth_distributor, 
+    eth_digichambers
 };

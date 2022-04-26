@@ -77,6 +77,8 @@
             element.remove();
         }
     </script>
+
+
     <!-- profile Section -->
     <div class = "profile-flex">
         <div class="profile">
@@ -94,12 +96,12 @@
     </div>
 
     <!-- Input form section -->
-<div class = "form-for-data-upload">
+    <div class = "form-for-data-upload">
     <h2><img src="https://cdn-icons-png.flaticon.com/512/1486/1486433.png" alt="" width="40px">Update Raw Material</h4>
     <form action="/manufacturer/produce-material" method="post" class = "dataform">
         <input type="text" name = "Material" placeholder="Material">
         <input type="text" name = "Capacity" placeholder="Capacity">
-        <input type="text" name = "Price" placeholder="Price">
+        <!-- <input type="text" name = "Price" placeholder="Price"> -->
         <input type="submit" value = "Submit">
     </form>
     </div>
@@ -114,67 +116,132 @@
         }
     </style>
 
+
+
+
+
+
 <!-- available stock -->
+
+<!-- Approved Stock -->
 <div>
-    <h2> <img src="https://cdn-icons-png.flaticon.com/512/172/172150.png" alt="" width="30px"> Current Stock</h2>
-    <% if (Data.Stock.length == 0) {%>
-            <h3>No stock present</h3>  
+    <h2> <img src="https://cdn-icons-png.flaticon.com/512/172/172150.png" alt="" width="30px"> Approved Requests</h2>
+        <% if (Data.Approved.length == 0) {%>
+            <h3>No Requests present</h3>  
             <% } %>
-            <div class = "box">
-                
-                <% if (Data.Stock) { for (const stock of Data.Stock) { %>
+        <div class = "box">
+                <% if (Data.Approved) { for (const request of Data.Approved) { %>
                     <div class="card">
                         <div class = "container">
-                            <form >
-                                <% if (stock != {}) { %>
+                            <form action="/digichambers/approve-reject-request" method="get">
+                                <% if (request != {}) { %>
+                                    <label for="country"> ID :</label>
+                                    <input type="text" name="_id" readonly value= <%= request._id %> ><br><br>
+                                    <label for="country"> Owner :</label>
+                                    <input type="text" name="Owner" readonly value= <%= request.Owner %> ><br><br>
                                     <label for="country"> Material :</label>
-                                    <input type="text" name="Material" readonly value= <%= stock.Material %> ><br><br>
+                                    <input type="text" name="Material" readonly value= <%= request.Material %> ><br><br>
                                     <label for="country"> Capacity :</label>
-                                    <input type="text" name="Capacity" readonly value= <%= stock.Capacity %> ><br><br>
-                                    <label for="country"> Price :</label>
-                                    <input type="text"  name="Price" readonly value= <%= stock.Price %> ><br><br>
-                                    <!-- <input type="submit" value="Accept Request"> -->
-                                    <% } %>
-                                    </form>
-                                </div>
-            </div>
+                                    <input type="text"  name="Status" readonly value= <%= request.Capacity %> ><br><br>
+                                <% } %>
+                            </form>
+                        </div>
+                    </div>
             <% } } %>
-              
-            </div>
         </div>
-        <!-- Table / Collection Section -->
-        <div>
-            <h2> <img src="https://www.clipartmax.com/png/middle/255-2552677_cluster-icons-foodprocessing-blue-food-raw-materials-icon.png" alt="" width="40px"> Raw Material Requests on the Network</h2>
-        <% if (Data.Requests.length == 0) {%>
-            <h3>No requests present</h3>  
-        <% } %>
-        <div class = "box">
-        
-             <% if (Data.Requests) { for (const Request of Data.Requests) { %>
-            <div class="card">
-                <div class = "container">
-                    <% if (Request != {}) {  %>
-                    <form action="/manufacturer/accept-request" method="post">
-                        <label for="Material"> Product :</label>
-                        <input type="text" readonly name="Product" value= <%= Request.Product %> ><br><br>
-                        <label for="Material"> Material :</label>
-                        <input type="text" readonly name="Material" value= <%= Request.Material %> ><br><br>
-                        <label for="Capacity"> Capacity :</label>
-                        <input type="text" readonly name="Capacity" value= <%= Request.Capacity %> ><br><br>
-                        <label for="Price"> Price:</label>
-                        <input type="text" readonly name="Price" value= <%= Request.Price %> ><br><br>
-                        <input type="submit" value="Accept Request">
-                    </form>
-                    <% } %>
-                </div>
-            </div>
-            <% }} %>
-           
-              
-              
-              
-            
 </div>
+
+<!-- Rejected Stock -->
+<div>
+    <h2> <img src="https://cdn-icons-png.flaticon.com/512/172/172150.png" alt="" width="30px"> Rejected Requests</h2>
+        <% if (Data.Rejected.length == 0) {%>
+            <h3>No Requests present</h3>  
+            <% } %>
+        <div class = "box">
+                <% if (Data.Rejected) { for (const request of Data.Rejected) { %>
+                    <div class="card">
+                        <div class = "container">
+                            <form action="/digichambers/approve-reject-request" method="get">
+                                <% if (request != {}) { %>
+                                    <label for="country"> ID :</label>
+                                    <input type="text" name="_id" readonly value= <%= request._id %> ><br><br>
+                                    <label for="country"> Material :</label>
+                                    <input type="text" name="Material" readonly value= <%= request.Material %> ><br><br>
+                                <% } %>
+                            </form>
+                        </div>
+                    </div>
+            <% } } %>
+        </div>
+</div>
+
+
+
+<!-- Pending Verification of Stock -->
+<div>
+    <h2> <img src="https://cdn-icons-png.flaticon.com/512/172/172150.png" alt="" width="30px"> Requests under review</h2>
+        <% if (Data.Requests.length == 0) {%>
+            <h3>No Requests present</h3>  
+            <% } %>
+        <div class = "box">
+                <% if (Data.Requests) { for (const request of Data.Requests) { %>
+                    <div class="card">
+                        <div class = "container">
+                            <form action="/digichambers//approve-reject-request" method="get">
+                                <% if (request != {}) { %>
+                                    <label for="country"> ID :</label>
+                                    <input type="text" name="_id" readonly value= <%= request._id %> ><br><br>
+                                    <label for="country"> Material :</label>
+                                    <input type="text" name="Material" readonly value= <%= request.Material %> ><br><br>
+                                    <label for="country"> Status :</label>
+                                    <input type="text"  name="Status" readonly value= <%= request.Status %> ><br><br>
+                                <% } %>
+                            </form>
+                        </div>
+                    </div>
+            <% } } %>
+        </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- Table / Collection Section -->
+<div>
+    <h2> <img src="https://www.clipartmax.com/png/middle/255-2552677_cluster-icons-foodprocessing-blue-food-raw-materials-icon.png" alt="" width="40px"> Raw Material Requests on the Network</h2>
+<% if (Data.ProductRequests.length == 0) {%>
+    <h3>No requests present</h3>  
+<% } %>
+<div class = "box">
+
+     <% if (Data.ProductRequests) { for (const Request of Data.ProductRequests) { %>
+    <div class="card">
+        <div class = "container">
+            <% if (Request != {}) {  %>
+            <form action="/manufacturer/send-raw-material-tender" method="post">
+                <label for="Material"> Product :</label>
+                <input type="text" readonly name="Product" value= <%= Request.Product %> ><br><br>
+                <label for="Material"> Material :</label>
+                <input type="text" readonly name="Material" value= <%= Request.Material %> ><br><br>
+                <label for="Capacity"> Capacity :</label>
+                <input type="text" readonly name="Capacity" value= <%= Request.Capacity %> ><br><br>
+                <label for="Price"> Price:</label>
+                <input type="text" name="Price"  ><br><br>
+                <input type="submit" value="Send the proposal">
+            </form>
+            <% } %>
+        </div>
+    </div>
+    <% }} %>
+</div>
+
+
 </div>
     <div>
         <img id = "bg" src="https://png.pngtree.com/png-vector/20190130/ourlarge/pngtree-blue-blockchain-big-data-financial-finance-bitcoin-element-managementbreathable-designbitcoin-png-image_653690.jpg" alt="">

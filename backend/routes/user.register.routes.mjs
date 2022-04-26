@@ -130,6 +130,7 @@ router.get('/login', async (req, res)=>{
     User.Password = req.query.Password;
     User.IsActive = true;
     // console.log(req.query)
+    console.log(User)
 
     db.user.findOne(User).then(result=>{
 
@@ -153,7 +154,10 @@ router.get('/login', async (req, res)=>{
                 return res.redirect('/retailer-Page');
             }
             else if (result.Role == "Customer"){
-
+                
+            }
+            else if (result.Role == "DigiChambers"){
+                return res.redirect('/DigiChambers-Page');
             }
         }
     });

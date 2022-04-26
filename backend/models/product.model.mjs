@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema({
      Owner : String,
      Product: String,
-     Price : Number,
-     Requirement : [{_material : String, _capacity : Number, _price : Number }],
+     Cost : {type : Number, default : 0},
+     Requirement : [{_material : String, _capacity : Number}],
      timestamp: { type: Date, default: Date.now}
 });
 

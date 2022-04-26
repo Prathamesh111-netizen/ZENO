@@ -67,22 +67,51 @@ router.get('/signup-customer', (req, res)=>{
 
 router.get('/manufacturer-Page', async (req, res) =>{
 
+
+  // profile details
+  // Update the stock
+  // Pending requests, Approved Requests, Rejected Requests
+  // Send the tender for product requets, after approval direct transport request will be send
+  // approve the tenders of transfer requests
+  
   const data = {
     Alert : "",
-    Profile : req.cookies.accessToken
+    Profile : req.cookies.accessToken,
+    Requests : [],
+    Approved : [],
+    Rejected : [],
+    ProductRequests : [],
+    TransferTender : []
   };
- 
-  await db.productRequest.find({IsActive : true , Isfulfilled : false, IsAcceptedbyManufacturer : false}).then (async (result)=>{
-    data.Requests = result;
-    console.log(result);
-    await db.rawMaterial.find({Owner : req.cookies.accessToken.ContractAddress}).then (async (docs)=>{
-      console.log(docs);
-      data.Stock = docs;
-      res.render('MainPage_manu', {Data : data});
-    })
-  });
+  
+  await db.certificateRequest.find({Owner : req.cookies.accessToken.ContractAddress}).then( async (result)=>{
+    console.log("result", result)
+    for (var i = 0; i < result.length; i++){
+      if (result[i].Status == "Approved")
+        data.Approved.push(result[i])
+      else if (result[i].Status == "Rejected")
+        data.Rejected.push(result[i])
+      else
+        data.Requests.push(result[i])
+   }
 
+
+    await db.productRequest.find({IsActive : true , Isfulfilled : false, IsAcceptedbyManufacturer : false}).then (async (result2)=>{
+      data.ProductRequests = result2;
+          await db.transportTender.find({Owner : req.cookies.accessToken.ContractAddress, IsActive : true}).then(async(result3)=>{
+            data.TransferTender = result3;
+          })
+    });
+  
+  });
+  
+  console.log(data)
+  res.render('MainPage_manu', {Data : data});
+  // res.send({ true : true})
 });
+
+
+
 router.get('/retailer-Page', async (req, res) =>{
 
   const data = {
@@ -119,6 +148,28 @@ router.get('/distributor-Page', async (req, res) =>{
 
 });
 
+router.get('/DigiChambers-Page', async(req, res)=>{
+  const data = {
+    Requests : [],
+    Approved : [],
+    Rejected : []
+  };
+  
+  await db.certificateRequest.find().then( async (result)=>{
+    for (var i = 0; i < result.length; i++){
+      if (result[i].Status == "Approved")
+        data.Approved.push(result[i])
+      else if (result[i].Status == "Rejected")
+        data.Rejected.push(result[i])
+      else
+        data.Requests.push(result[i])
+    }
+
+    console.log(data)
+    res.render('MainPage_digiChambers', {Data : data});
+  });
+
+})
 
 
 
