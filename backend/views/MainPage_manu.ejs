@@ -9,7 +9,7 @@
         body{
             /* background-image: url('https://p4.wallpaperbetter.com/wallpaper/185/914/378/hexagon-white-abstract-3d-abstract-hd-wallpaper-preview.jpg');
             opacity: 0.3; */
-            background-color: #f4f4f5;
+            background-color: #fefeff;
         }
         .card {
         /* Add shadows to create the "card" effect */
@@ -29,6 +29,20 @@
         .box {
             width: 100%;
             display: flex;
+        }
+        input{
+            padding: 6px 10px;
+            margin: 8px 0;
+        }
+        input[type=submit]{
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
         }
         .card {
             background-color: white;
@@ -51,11 +65,15 @@
         li{
             list-style-type: none;
         }
+        
         #profimag{
             width: 40px;
         }
         .profile{
             padding: 10px;
+            box-shadow: #4CAF50;
+            width: 50%;
+
         }
     </style>
 </head>
@@ -81,7 +99,7 @@
 
     <!-- profile Section -->
     <div class = "profile-flex">
-        <div class="profile">
+        <div class="profile card">
             <h2><img id ="profimag" src="https://icon-library.com/images/coder-icon/coder-icon-13.jpg" alt=""> Profile</h2>
             <div class="details">
                  <ul >
@@ -227,6 +245,8 @@
             <form action="/manufacturer/send-raw-material-tender" method="post">
                 <label for="Material"> Product :</label>
                 <input type="text" readonly name="Product" value= <%= Request.Product %> ><br><br>
+                <label for="Material"> Retailer :</label>
+                <input type="text" readonly name="Retailer" value= <%= Request.Owner %> ><br><br>
                 <label for="Material"> Material :</label>
                 <input type="text" readonly name="Material" value= <%= Request.Material %> ><br><br>
                 <label for="Capacity"> Capacity :</label>
@@ -244,7 +264,7 @@
 
 </div>
     <div>
-        <img id = "bg" src="https://png.pngtree.com/png-vector/20190130/ourlarge/pngtree-blue-blockchain-big-data-financial-finance-bitcoin-element-managementbreathable-designbitcoin-png-image_653690.jpg" alt="">
+        <img id = "bg" height = "350px" src="https://i0.wp.com/www.inventiva.co.in/wp-content/uploads/2022/02/manufacturingbusiness3.jpg?resize=780%2C470&ssl=1" alt="">
     </div>
     <style>
         #bg {

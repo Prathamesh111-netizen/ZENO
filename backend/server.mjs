@@ -22,14 +22,9 @@ app.use(express.static("public"));
 app.use(express.json({
   type: ['application/json', 'text/plain']
 }))
-
-
-// Port and Server setup
 const PORT = process.env.PORT || 1200;
-app.listen(PORT, (err) => {
-  if (err) throw err;
-  else console.log(`Server Running at http://localhost:${PORT}/`);
-});
+
+
 
 // database connection
 import db from "./models/index.mjs"
@@ -38,7 +33,13 @@ db.connectDB();
 // blockchain connection
 import { dummy } from "./blockchain/blockchain.conn.mjs"
 const blockchain_conn = await dummy.get();
-console.log(blockchain_conn);
+console.log(blockchain_conn)
+
+// Port and Server setup
+app.listen(PORT, (err) => {
+  if (err) throw err;
+  else console.log(`Server Running at http://localhost:${PORT}/`);
+});
 
 
 // final routes

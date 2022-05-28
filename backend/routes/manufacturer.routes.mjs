@@ -154,7 +154,6 @@ router.post('/accept-request', async (req, res) => {
 })
 
 
-
 // send tenders for particular product raw material requests
 router.post('/send-raw-material-tender', async (req, res)=>{
 
@@ -166,13 +165,26 @@ router.post('/send-raw-material-tender', async (req, res)=>{
     // update on database
     await db.rawMaterialTender.create({
         Owner : req.cookies.accessToken.ContractAddress,
-        Product : req.body.ProductAddress,
+        Product : req.body.Product,
         Retailer : req.body.Retailer,
         Material : req.body.Material,
         Capacity : req.body.Capacity,
         Price :  req.body.Price,
         Status : "Send Proposal for raw material request.",
     })
+
+    await db.rawMaterial.findOne({Owner : req.cookies.accessToken.ContractAddress, Material : req.body.Material}).then(async (docs)=>{
+        await db.tracking.create({
+            CertificateID : docs.CertificateID,
+            Operation : "Sent-Proposal-for-raw-material-sell",
+            From : req.cookies.accessToken.ContractAddress,
+            To: req.body.Retailer,
+        })
+    })
+
+
     res.redirect('/manufacturer-page');
+
+
 })
 export default router;

@@ -59,6 +59,13 @@ router.get('/approve-reject-request', async (req, res)=>{
                             Capacity: parseInt(result.Capacity)
                 });
 
+
+                db.tracking.create({
+                    CertificateID : result.CertificateID + process.env.secKey,
+                    Operation : "Issuing-Certificate-of-Origin",
+                    From : "DigiChambers",
+                    To:  result.Owner,
+                })
             }
         });
 
@@ -86,21 +93,9 @@ router.get('/approve-reject-request', async (req, res)=>{
     
     
 
-    res.send({status : true})
+    res.redirect('/DigiChambers-Page')
 })
 
-
-// reject request
-// router.get('/reject-request', async (req, res)=>{
-//     const Request = {
-//         ID : req.query._id,
-//         Status : req.query.Status
-//     };
-
-    
-
-
-// })
 
 router.get('/verify-cerificate', async(req, res)=>{
     const Request = {

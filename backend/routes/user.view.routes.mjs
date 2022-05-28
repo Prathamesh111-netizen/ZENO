@@ -98,9 +98,9 @@ router.get('/manufacturer-Page', async (req, res) =>{
 
     await db.productRequest.find({IsActive : true , Isfulfilled : false, IsAcceptedbyManufacturer : false}).then (async (result2)=>{
       data.ProductRequests = result2;
-          await db.transportTender.find({Owner : req.cookies.accessToken.ContractAddress, IsActive : true}).then(async(result3)=>{
-            data.TransferTender = result3;
-          })
+          // await db.transportTender.find({Owner : req.cookies.accessToken.ContractAddress, IsActive : true}).then(async(result3)=>{
+          //   data.TransferTender = result3;
+          // })
     });
   
   });
@@ -110,23 +110,30 @@ router.get('/manufacturer-Page', async (req, res) =>{
   // res.send({ true : true})
 });
 
-
-
 router.get('/retailer-Page', async (req, res) =>{
 
   const data = {
     Alert : "",
-    Profile : req.cookies.accessToken
+    Profile : req.cookies.accessToken, 
   };
+
 
   await db.transportRequest.find({retailer :req.cookies.accessToken.ContractAddress,  IsActive : true , IsAccepted : false, IsAcceptedbyDistributor: true}).then (async (result)=>{
     data.Requests = result;
     // console.log(data);
     await db.product.find({Owner : req.cookies.accessToken.ContractAddress}).then (async (docs)=>{
-      console.log(docs);
+      // console.log(docs);
       data.Stock = docs;
       await db.productRequest.find({Owner : req.cookies.accessToken.ContractAddress, IsActive : true}).then (async (ress)=>{
         data.wRequests = ress;
+
+        await db.rawMaterialTender.find({Retailer : req.cookies.accessToken.ContractAddress, IsActive : true}).then(async (res2)=>{
+          data.tenders = res2;})
+
+          await db.rawMaterial.find({Owner : req.cookies.accessToken.ContractAddress}).then( async (resultp)=>{
+            data.Approved = resultp
+           })
+
         res.render('MainPage_retail', {Data : data});
       })
     })
@@ -171,7 +178,18 @@ router.get('/DigiChambers-Page', async(req, res)=>{
 
 })
 
-
+router.get('/asset-tracking-page', async(req, res)=>{
+  const Data = {};
+  console.log(req.query)
+  if ("CertificateID" in req.query){
+    await db.tracking.find({CertificateID : req.query.CertificateID}).then(async (result)=>{
+      Data.asset = result;
+    })
+  }
+  
+  console.log(Data)
+  res.render("Tracking", {Data : Data})
+})
 
 // first - entry into the website
 router.get('/enter', (req, res)=>res.render("index_2options"));

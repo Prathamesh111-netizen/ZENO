@@ -39,6 +39,20 @@
         .container input{
             border: none;
         }
+        input{
+            padding: 6px 10px;
+            margin: 8px 0;
+        }
+        input[type=submit]{
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
         #popup div{
             width: 100%;
             margin: auto;
@@ -57,6 +71,7 @@
         }
         .profile{
             padding: 10px;
+            width: 50%;
         }
     </style>
 </head>
@@ -81,7 +96,7 @@
 
     <!-- profile Section -->
     <div class = "profile-flex">
-        <div class="profile">
+        <div class="profile card">
             <h2><img id ="profimag" src="https://icon-library.com/images/coder-icon/coder-icon-13.jpg" alt=""> Profile</h2>
             <div class="details">
                  <ul >
@@ -126,7 +141,43 @@
         }
     </style>
 
-    <!-- available stock -->
+<!-- Available inventory -->
+<div>
+    <h2> <img src="https://cdn-icons-png.flaticon.com/512/172/172150.png" alt="" width="30px"> Inventory </h2>
+        <% if (Data.Approved.length == 0) {%>
+            <h3>No stock present</h3>  
+            <% } %>
+        <div class = "box">
+                <% if (Data.Approved) { for (const request of Data.Approved) { %>
+                    <div class="card">
+                        <div class = "container">
+                            <form action="/digichambers/approve-reject-request" method="get">
+                                <% if (request != {}) { %>
+                                    <label for="country"> ID :</label>
+                                    <input type="text" name="_id" readonly value= <%= request._id %> ><br><br>
+                                    <label for="country"> Owner :</label>
+                                    <input type="text" name="Owner" readonly value= <%= request.Owner %> ><br><br>
+                                    <label for="country"> Material :</label>
+                                    <input type="text" name="Material" readonly value= <%= request.Material %> ><br><br>
+                                    <label for="country"> Capacity :</label>
+                                    <input type="text"  name="Status" readonly value= <%= request.Capacity %> ><br><br>
+                                <% } %>
+                            </form>
+                        </div>
+                    </div>
+            <% } } %>
+        </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- available product Schema -->
 <div>
     <h2> <img src="https://cdn-icons-png.flaticon.com/512/172/172150.png" alt="" width="30px"> All Product Schema</h2>
     <% if (Data.Stock.length == 0) {%>
@@ -178,7 +229,43 @@
                 <% } } %>
         </div>
 
-        
+    <!-- tenders -->
+    <div>
+        <h2> <img src="https://cdn-icons-png.flaticon.com/512/172/172150.png" alt="" width="30px"> Proposal Requests for raw Materials </h2>
+            <% if (Data.tenders.length == 0) {%>
+                <h3>No proposals present right now</h3>  
+                <% } %>
+            <div class = "box">
+                    <% if (Data.tenders) { for (const request of Data.tenders) { %>
+                        <div class="card">
+                            <div class = "container">
+                                <form action="/retailer/approve-raw-material-tender" method="post">
+                                    <% if (request != {}) { %>
+                                        <label for="country"> ID :</label>
+                                        <input type="text" name="_id" readonly value= <%= request._id %> ><br><br>
+                                        <label for="country"> Owner :</label>
+                                        <input type="text" name="Owner" readonly value= <%= request.Owner %> ><br><br>
+                                        <label for="country"> Product :</label>
+                                        <input type="text" name="Product" readonly value= <%= request.Product %> ><br><br>
+                                        <label for="country"> Material :</label>
+                                        <input type="text" name="Material" readonly value= <%= request.Material %> ><br><br>
+                                        <label for="country"> Price :</label>
+                                        <input type="text" name="Price" readonly value= <%= request.Price %> ><br><br>
+                                        <label for="country"> Status :</label>
+                                        <input type="text"  name="Status" readonly value= <%= request.Status %> ><br><br>
+                                        <input type="submit" value="Accept" name = "ops">
+                                        <!-- <input type="submit" value="Reject" name = "ops"> -->
+                                    <% } %>
+                                </form>
+                            </div>
+                        </div>
+                <% } } %>
+            </div>
+    </div>
+
+
+
+
     <!-- Delivery Scheduled Table / Collection Section -->
     <div>
         <h2>Confirm the Scheduled raw Material delivery to Retailer</h2>

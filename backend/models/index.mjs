@@ -6,7 +6,8 @@ import productRequestModel from "./product.request.model.mjs";
 import transportRequestModel from "./transport.request.model.mjs";
 import certificateRequestModel from "./certificate.request.model.mjs";
 import rawMaterialTenderModel from "./raw.material.tenders.mjs";
-import transportTenderModel from "./transport.tenders.mjs"
+import trackingModel from "./tracking.model.mjs"
+// import transportTenderModel from "./transport.tenders.mjs"
 
 const db = {};
 db.connectDB = connectDB;
@@ -17,7 +18,8 @@ db.productRequest = productRequestModel;
 db.transportRequest = transportRequestModel;
 db.certificateRequest = certificateRequestModel;
 db.rawMaterialTender = rawMaterialTenderModel;
-db.transportTender = transportTenderModel;
+db.tracking = trackingModel;
+// db.transportTender = transportTenderModel;
 
 
 export default db;

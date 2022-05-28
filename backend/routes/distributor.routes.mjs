@@ -8,10 +8,19 @@ const router = express.Router();
 router.post('/accept-request', async (req, res) => {
 
     // html form only with single field Transport address
-    
     const user = req.cookies.accessToken;
     
+    
     await db.transportRequest.findOne({ Transport: req.body.TransportAddress, IsActive : true }).then(async (result) => {
+        
+        await db.rawMaterial.findOne({Owner : result.Manufacturer, Material : result.Material}).then(async (docs)=>{
+            await db.tracking.create({
+                CertificateID : docs.CertificateID,
+                Operation : "transfer-of-assets-via-Distributor",
+                From : result.Manufacturer,
+                To:  user.ContractAddress,
+            })
+        })
         
         console.log(result)
         if (result == null)

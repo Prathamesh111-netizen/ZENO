@@ -38,6 +38,10 @@
         .container input{
             border: none;
         }
+        input{
+            padding: 12px 20px;
+            margin: 8px 0;
+        }
         #popup div{
             width: 100%;
             margin: auto;
@@ -57,6 +61,19 @@
         .profile{
             padding: 10px;
         }
+        #g, #r {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+#r{
+    background-color: #f44336;
+}
     </style>
 </head>
 <body>
@@ -81,8 +98,8 @@
                                         <input type="text" name="Material" readonly value= <%= request.Material %> ><br><br>
                                         <label for="country"> Status :</label>
                                         <input type="text"  name="Status" readonly value= <%= request.Status %> ><br><br>
-                                        <input type="submit" value="Accept" name = "ops">
-                                        <input type="submit" value="Reject" name = "ops">
+                                        <input type="submit" value="Accept" name = "ops" id = "g">
+                                        <input type="submit" value="Reject" name = "ops" id = "r">
                                     <% } %>
                                 </form>
                             </div>
@@ -113,8 +130,8 @@
                                         <input type="text" name="Material" readonly value= <%= request.Material %> ><br><br>
                                         <label for="country"> Status :</label>
                                         <input type="text"  name="Status" readonly value= <%= request.Status %> ><br><br>
-                                        <input type="submit" value="Accept" name = "ops">
-                                        <input type="submit" value="Reject" name = "ops">
+                                        <!-- <input type="submit" value="Accept" name = "ops">
+                                        <input type="submit" value="Reject" name = "ops"> -->
                                     <% } %>
                                 </form>
                             </div>
@@ -143,8 +160,8 @@
                                         <input type="text" name="Material" readonly value= <%= request.Material %> ><br><br>
                                         <label for="country"> Status :</label>
                                         <input type="text"  name="Status" readonly value= <%= request.Status %> ><br><br>
-                                        <input type="submit" value="Accept" name = "ops">
-                                        <input type="submit" value="Reject" name = "ops">
+                                        <!-- <input type="submit" value="Accept" name = "ops">
+                                        <input type="submit" value="Reject" name = "ops"> -->
                                     <% } %>
                                 </form>
                             </div>
